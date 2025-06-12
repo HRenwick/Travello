@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="container-fluid">
+                <div class="row mt-3 mb-3">
+                    <div class="col-md-12">
+                        {% for message in messages %}
+                            <div class="alert alert-info">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Destination Details -->
+    <div class="container mt-5 mb-3">
+        <div class="row mt-4 justify-content-center">
+            <div class="col-10 col-lg-8 mb-4">
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <h1 class="mb-0">{{ destination.city_name }}</h1>
+                        <p class="mb-0">Trending Destination</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-0">1 AUD equals</p>
+                        <h2 id="exchange-rate">{{ destination.exchange_rate }} {{ destination.currency_code }}</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-12 mt-4 mx-3">
+                        <div class="card">
+                            <img
+                                src="{{ destination.image }}"
+                                alt="{{ destination.name }}"
+                                class="card-img-top"
+                                style="height:300px; object-fit:cover">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ destination.city_name }}, {{ destination.country_name }}</h5>
+                                <p class="card-text">{{ destination.description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    <a href="#" class="btn btn-danger">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br></br>
+        <hr>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <h2>Comments</h2>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                {{ render_form(form, "/destinations/{0}/comment".format(destination.id)) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {% for comment in destination.comments %}
+                    <div class="border-bottom py-3">
+                        <b>{{ comment.posted_by.username }}
+                            <span class="ml-2 text-muted">
+                                {{ comment.posted_at.strftime('%b %d, %Y at %I:%M %p') }}
+                            </span>
+                        </b>
+                        <p class="mb-0">{{ comment.text }}</p>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
