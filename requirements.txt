@@ -1,0 +1,11 @@
+# Dependencies for Travello Web App
+
+Flask
+Flask-Bootstrap
+Flask-SQLAlchemy
+Flask-Login
+Flask-WTF
+flask-bcrypt
+WTForms
+Werkzeug
+email-validator
